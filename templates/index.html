@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CareerIQ — Career Guidance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/static/css/style.css"/>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════
+     TOP BAR
+════════════════════════════════════════════════════════════ -->
+<div class="topbar">
+  <div class="topbar-logo">
+    <div class="logo-mark">C</div>
+    <span>CareerIQ</span>
+  </div>
+  <div class="topbar-right">
+    <span id="stepLabel">Step 1 of 4</span>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="progressFill"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     WIZARD SHELL  (left panel + right panel)
+════════════════════════════════════════════════════════════ -->
+<div class="wizard" id="wizardShell">
+
+  <!-- ── LEFT: step nav ──────────────────────────────────── -->
+  <aside class="wizard-nav">
+    <div class="wnav-steps">
+      <div class="wnav-step active" data-step="1">
+        <div class="wnav-num">1</div>
+        <div class="wnav-info">
+          <strong>Interests</strong>
+          <span>What excites you?</span>
+        </div>
+      </div>
+      <div class="wnav-connector"></div>
+      <div class="wnav-step" data-step="2">
+        <div class="wnav-num">2</div>
+        <div class="wnav-info">
+          <strong>Grades</strong>
+          <span>Academic performance</span>
+        </div>
+      </div>
+      <div class="wnav-connector"></div>
+      <div class="wnav-step" data-step="3">
+        <div class="wnav-num">3</div>
+        <div class="wnav-info">
+          <strong>Skills</strong>
+          <span>What you're good at</span>
+        </div>
+      </div>
+      <div class="wnav-connector"></div>
+      <div class="wnav-step" data-step="4">
+        <div class="wnav-num">4</div>
+        <div class="wnav-info">
+          <strong>Personality</strong>
+          <span>How you work</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- live summary -->
+    <div class="wnav-summary" id="liveSummary">
+      <p class="summary-title">Your profile so far</p>
+      <div class="summary-row" id="sum-interests"><span class="sum-label">Interests</span><span class="sum-val">—</span></div>
+      <div class="summary-row" id="sum-grades"><span class="sum-label">Grades</span><span class="sum-val">—</span></div>
+      <div class="summary-row" id="sum-skills"><span class="sum-label">Skills</span><span class="sum-val">—</span></div>
+      <div class="summary-row" id="sum-personality"><span class="sum-label">Personality</span><span class="sum-val">—</span></div>
+    </div>
+  </aside>
+
+  <!-- ── RIGHT: step content ─────────────────────────────── -->
+  <main class="wizard-body">
+
+    <!-- STEP 1 — INTERESTS -->
+    <div class="step-panel active" id="panel1">
+      <div class="panel-head">
+        <p class="panel-eyebrow">Step 1 / 4</p>
+        <h1>What subjects or fields<br>genuinely interest you?</h1>
+        <p class="panel-hint">Select everything that applies. You can pick more than one.</p>
+      </div>
+      <div class="option-grid" id="interestChips">
+        <button type="button" class="opt-card" data-value="coding">
+          <span class="check-tick">✓</span>
+          <span class="opt-icon">💻</span>
+          <strong>Coding</strong>
+          <span>Programming, software, tech</span>
+        </button>
+        <button type="button" class="opt-card" data-value="biology">
+          <span class="check-tick">✓</span>
+          <span class="opt-icon">🧬</span>
+          <strong>Biology</strong>
+          <span>Life sciences, medicine, nature</span>
+        </button>
+        <button type="button" class="opt-card" data-value="business">
+          <span class="check-tick">✓</span>
+          <span class="opt-icon">📊</span>
+          <strong>Business</strong>
+          <span>Finance, management, strategy</span>
+        </button>
+        <button type="button" class="opt-card" data-value="arts">
+          <span class="check-tick">✓</span>
+          <span class="opt-icon">🎨</span>
+          <strong>Arts & Design</strong>
+          <span>Visual, creative, media</span>
+        </button>
+        <button type="button" class="opt-card" data-value="engineering">
+          <span class="check-tick">✓</span>
+          <span class="opt-icon">⚙️</span>
+          <strong>Engineering</strong>
+          <span>Structures, systems, machines</span>
+        </button>
+        <button type="button" class="opt-card" data-value="social">
+          <span class="check-tick">✓</span>
+          <span class="opt-icon">🤝</span>
+          <strong>Social Work</strong>
+          <span>People, community, education</span>
+        </button>
+      </div>
+      <div class="panel-error hidden" id="err1">Please select at least one interest.</div>
+      <div class="panel-footer">
+        <button class="btn-next" onclick="goNext(1)">Continue <span>→</span></button>
+      </div>
+    </div>
+
+    <!-- STEP 2 — GRADES -->
+    <div class="step-panel" id="panel2">
+      <div class="panel-head">
+        <p class="panel-eyebrow">Step 2 / 4</p>
+        <h1>How are your grades<br>in these subjects?</h1>
+        <p class="panel-hint">Be honest — this directly affects which careers we suggest.</p>
+      </div>
+      <div class="grades-block">
+        <div class="grade-item">
+          <div class="grade-meta">
+            <span class="grade-icon">📐</span>
+            <div>
+              <strong>Mathematics</strong>
+              <span>Algebra, calculus, statistics</span>
+            </div>
+          </div>
+          <div class="grade-scale" data-subject="math">
+            <label class="scale-opt"><input type="radio" name="math" value="low"/><span>Low</span></label>
+            <label class="scale-opt"><input type="radio" name="math" value="medium"/><span>Medium</span></label>
+            <label class="scale-opt"><input type="radio" name="math" value="high"/><span>High</span></label>
+          </div>
+        </div>
+        <div class="grade-item">
+          <div class="grade-meta">
+            <span class="grade-icon">🔬</span>
+            <div>
+              <strong>Science</strong>
+              <span>Physics, chemistry, biology</span>
+            </div>
+          </div>
+          <div class="grade-scale" data-subject="science">
+            <label class="scale-opt"><input type="radio" name="science" value="low"/><span>Low</span></label>
+            <label class="scale-opt"><input type="radio" name="science" value="medium"/><span>Medium</span></label>
+            <label class="scale-opt"><input type="radio" name="science" value="high"/><span>High</span></label>
+          </div>
+        </div>
+        <div class="grade-item">
+          <div class="grade-meta">
+            <span class="grade-icon">📖</span>
+            <div>
+              <strong>English</strong>
+              <span>Writing, reading, communication</span>
+            </div>
+          </div>
+          <div class="grade-scale" data-subject="english">
+            <label class="scale-opt"><input type="radio" name="english" value="low"/><span>Low</span></label>
+            <label class="scale-opt"><input type="radio" name="english" value="medium"/><span>Medium</span></label>
+            <label class="scale-opt"><input type="radio" name="english" value="high"/><span>High</span></label>
+          </div>
+        </div>
+      </div>
+      <div class="panel-error hidden" id="err2">Please rate at least one subject.</div>
+      <div class="panel-footer">
+        <button class="btn-back-step" onclick="goBack(2)">← Back</button>
+        <button class="btn-next" onclick="goNext(2)">Continue <span>→</span></button>
+      </div>
+    </div>
+
+    <!-- STEP 3 — SKILLS -->
+    <div class="step-panel" id="panel3">
+      <div class="panel-head">
+        <p class="panel-eyebrow">Step 3 / 4</p>
+        <h1>What are your<br>strongest skills?</h1>
+        <p class="panel-hint">Pick the ones people actually notice and compliment you on.</p>
+      </div>
+      <div class="option-grid" id="skillChips">
+        <button type="button" class="opt-card" data-value="analytical">
+          <span class="check-tick">✓</span>
+          <span class="opt-icon">📈</span>
+          <strong>Analytical</strong>
+          <span>Data, logic, problem-solving</span>
+        </button>
+        <button type="button" class="opt-card" data-value="communication">
+          <span class="check-tick">✓</span>
+          <span class="opt-icon">💬</span>
+          <strong>Communication</strong>
+          <span>Speaking, writing, listening</span>
+        </button>
+        <button type="button" class="opt-card" data-value="creativity">
+          <span class="check-tick">✓</span>
+          <span class="opt-icon">💡</span>
+          <strong>Creativity</strong>
+          <span>Ideas, design, innovation</span>
+        </button>
+        <button type="button" class="opt-card" data-value="leadership">
+          <span class="check-tick">✓</span>
+          <span class="opt-icon">🏆</span>
+          <strong>Leadership</strong>
+          <span>Guiding, deciding, motivating</span>
+        </button>
+        <button type="button" class="opt-card" data-value="problem-solving">
+          <span class="check-tick">✓</span>
+          <span class="opt-icon">🧩</span>
+          <strong>Problem Solving</strong>
+          <span>Finding solutions, debugging</span>
+        </button>
+        <button type="button" class="opt-card" data-value="teamwork">
+          <span class="check-tick">✓</span>
+          <span class="opt-icon">🤝</span>
+          <strong>Teamwork</strong>
+          <span>Collaborating, supporting</span>
+        </button>
+      </div>
+      <div class="panel-error hidden" id="err3">Please select at least one skill.</div>
+      <div class="panel-footer">
+        <button class="btn-back-step" onclick="goBack(3)">← Back</button>
+        <button class="btn-next" onclick="goNext(3)">Continue <span>→</span></button>
+      </div>
+    </div>
+
+    <!-- STEP 4 — PERSONALITY -->
+    <div class="step-panel" id="panel4">
+      <div class="panel-head">
+        <p class="panel-eyebrow">Step 4 / 4</p>
+        <h1>Which traits describe<br>how you work?</h1>
+        <p class="panel-hint">Think about how your teachers or close friends would describe you.</p>
+      </div>
+      <div class="option-grid" id="personalityChips">
+        <button type="button" class="opt-card" data-value="detail-oriented">
+          <span class="check-tick">✓</span>
+          <span class="opt-icon">🔍</span>
+          <strong>Detail-Oriented</strong>
+          <span>Precise, thorough, careful</span>
+        </button>
+        <button type="button" class="opt-card" data-value="leader">
+          <span class="check-tick">✓</span>
+          <span class="opt-icon">🚩</span>
+          <strong>Leader</strong>
+          <span>Takes charge, sets direction</span>
+        </button>
+        <button type="button" class="opt-card" data-value="empathetic">
+          <span class="check-tick">✓</span>
+          <span class="opt-icon">❤️</span>
+          <strong>Empathetic</strong>
+          <span>Understands others' feelings</span>
+        </button>
+        <button type="button" class="opt-card" data-value="patient">
+          <span class="check-tick">✓</span>
+          <span class="opt-icon">⏳</span>
+          <strong>Patient</strong>
+          <span>Calm, steady, persistent</span>
+        </button>
+        <button type="button" class="opt-card" data-value="risk-taker">
+          <span class="check-tick">✓</span>
+          <span class="opt-icon">⚡</span>
+          <strong>Risk-Taker</strong>
+          <span>Bold, adventurous, daring</span>
+        </button>
+        <button type="button" class="opt-card" data-value="introvert">
+          <span class="check-tick">✓</span>
+          <span class="opt-icon">🌙</span>
+          <strong>Introvert</strong>
+          <span>Focused, independent, deep</span>
+        </button>
+      </div>
+      <div class="panel-error hidden" id="err4">Please select at least one trait.</div>
+      <div class="panel-footer">
+        <button class="btn-back-step" onclick="goBack(4)">← Back</button>
+        <button class="btn-submit" id="submitBtn" onclick="submitForm()">
+          Find my careers
+          <span class="btn-arrow">→</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- RESULTS PANEL -->
+    <div class="step-panel" id="panelResults">
+      <div class="results-head">
+        <div class="results-head-left">
+          <p class="panel-eyebrow">Analysis complete</p>
+          <h1>Your career matches</h1>
+          <p class="panel-hint" id="resultsSubtitle"></p>
+        </div>
+        <button class="btn-restart" id="resetBtn">Start over</button>
+      </div>
+      <div id="resultsGrid"></div>
+    </div>
+
+    <!-- NO RESULTS PANEL -->
+    <div class="step-panel" id="panelNoResults">
+      <div class="no-results-wrap">
+        <div class="no-results-icon">🔭</div>
+        <h2>No matches found</h2>
+        <p>Your current selections didn't match any career rules.<br>Try selecting more interests, skills, or personality traits.</p>
+        <button class="btn-restart" id="resetBtn2">← Start over</button>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- LOADER -->
+<div class="loader-screen hidden" id="loaderScreen">
+  <div class="loader-content">
+    <div class="loader-dots">
+      <span></span><span></span><span></span>
+    </div>
+    <p>Running inference engine…</p>
+  </div>
+</div>
+
+<script src="/static/js/main.js"></script>
+</body>
+</html>
