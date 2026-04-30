@@ -1,2 +1,3 @@
 this is fine commit 
 this is second commit which have issue bug 
+this is third commit with fine  not havee bug 
