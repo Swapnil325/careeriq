@@ -1,1 +1,2 @@
 this is fine commit 
+this is second commit which have issue bug 
